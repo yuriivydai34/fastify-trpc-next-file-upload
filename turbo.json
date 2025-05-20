@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+
+  "pipeline": {
+    "build": {
+      "env": ["VERCEL_URL", "RENDER_INTERNAL_HOSTNAME", "NEXT_PUBLIC_PORT"],
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "start": {
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": [
+        "packages/ui/**/*.tsx",
+        "packages/ui/**/*.ts",
+        "apps/web/components/**/*.tsx",
+        "apps/web/components/**/*.ts"
+      ]
+    },
+    "test:e2e": {}
+  }
+}

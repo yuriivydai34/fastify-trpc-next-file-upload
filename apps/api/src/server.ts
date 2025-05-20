@@ -6,9 +6,42 @@ import { createContext } from "./routes/context";
 import { env } from "./config/env";
 import { config } from "./config/config";
 import { appRouter } from "./routes";
+import fastifyKafkaJS from "fastify-kafkajs";
+import { v4 as uuidv4 } from "uuid";
 
 const app = build({
   logger: config[env.NODE_ENV].logger,
+  pluginTimeout: 0
+});
+
+app.register(fastifyKafkaJS, {
+  clientConfig: {
+    brokers: ['localhost:9094'],
+    clientId: 'demo-app'
+  },
+  consumers: [
+    {
+      consumerConfig: {
+        groupId: 'example-consumer-group'
+      },
+      subscription: {
+        topics: ['test-topic'],
+        fromBeginning: false
+      },
+      runConfig: {
+        eachMessage: async ({ message }) => {
+          console.log(`Consumed message: ${message.value}`);
+        }
+      }
+    }
+  ]
+});
+
+app.post('/produce', async (request, reply) => {
+  return app.kafka.producer.send({
+    topic: 'test-topic',
+    messages: [{ key: 'key1', value: uuidv4() }]
+  });
 });
 
 app.register(fastifyTRPCPlugin, {

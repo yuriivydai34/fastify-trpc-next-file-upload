@@ -1,14 +1,18 @@
-# Fastify tRPC Next.js Starter
+# Fastify tRPC Next.js File Upload
 
 Turborepo setup for using:
 - Fastify
 - tRPC
 - Next.js
 - ESLint
+- Minio
+- Kafka
+- Prisma
 
 ## Getting Started
 ```bash
-git clone git@github.com:maybemaby/fastify-trpc-next.git
+git clone git@github.com:yuriivydai34/fastify-trpc-next-file-upload.git
+corepack up
 pnpm i
 ```
 

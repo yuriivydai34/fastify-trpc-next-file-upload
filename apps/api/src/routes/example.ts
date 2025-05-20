@@ -19,4 +19,12 @@ export const exampleRouter = router({
       const allFiles = prisma.file.findMany()
       return allFiles;
     }),
+  deleteFile: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query((opts) => {
+      const { input } = opts;
+      const idNumber = parseInt(input.id);
+      prisma.file.deleteMany({ where: { id: idNumber } })
+      return `Deleted ${input.id}` as const;
+    }),
 });

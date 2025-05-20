@@ -9,8 +9,8 @@ export default function Web() {
 
   console.log(resFiles.data);
 
-  function handleDelete(name: string): void {
-    console.log('delete: ' + name)
+  function handleDelete(id: string): void {
+    trpc.example.deleteFile.useQuery({ id });
   }
 
   return (
@@ -33,7 +33,7 @@ export default function Web() {
                   {file.name}
                 </td>
                 <td>
-                  <button className="btn btn-red" onClick={() => handleDelete(file.name)}>Delete</button>
+                  <button className="btn btn-red" onClick={() => handleDelete(file.id)}>Delete</button>
                 </td>
               </tr>
             ))}
